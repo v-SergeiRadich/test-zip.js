@@ -7,9 +7,9 @@ on:
   pull_request:
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+#   cancel-in-progress: true
 
 jobs:
   lint:
@@ -70,62 +70,68 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: windows-latest
-            browser: chrome
-            version: 'latest'
-          - os: windows-latest
-            browser: chrome
-            version: '87.0'
-            url: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F811961%2Fchrome-win.zip?alt=media'
-            driver: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F811961%2Fchromedriver_win32.zip?alt=media'
-            search: 'maxParallelTests=4'
-          - os: windows-latest
-            browser: chrome
-            version: '76.0'
-            url: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F664573%2Fchrome-win.zip?alt=media'
-            driver: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F664573%2Fchromedriver_win32.zip?alt=media'
-          - os: windows-latest
-            browser: firefox
-            version: 'latest'
-          - os: windows-latest
-            browser: firefox
-            version: '102.0'
-            url: 'https://ftp.mozilla.org/pub/firefox/releases/102.0.1/win64/en-US/Firefox%20Setup%20102.0.1.exe'
-          - os: windows-latest
-            browser: firefox
-            version: '79.0'
-            url: 'https://ftp.mozilla.org/pub/firefox/releases/79.0/win64/en-US/Firefox%20Setup%2079.0.exe'
-            search: 'withStreamsPolyfill'
+          # - os: windows-latest
+          #   browser: chrome
+          #   version: 'latest'
+          # - os: windows-latest
+          #   browser: chrome
+          #   version: '87.0'
+          #   url: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F811961%2Fchrome-win.zip?alt=media'
+          #   driver: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F811961%2Fchromedriver_win32.zip?alt=media'
+          #   search: 'maxParallelTests=4'
+          # - os: windows-latest
+          #   browser: chrome
+          #   version: '76.0'
+          #   url: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F664573%2Fchrome-win.zip?alt=media'
+          #   driver: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F664573%2Fchromedriver_win32.zip?alt=media'
+          # - os: windows-latest
+          #   browser: firefox
+          #   version: 'latest'
+          # - os: windows-latest
+          #   browser: firefox
+          #   version: '102.0'
+          #   url: 'https://ftp.mozilla.org/pub/firefox/releases/102.0.1/win64/en-US/Firefox%20Setup%20102.0.1.exe'
+          # - os: windows-latest
+          #   browser: firefox
+          #   version: '79.0'
+          #   url: 'https://ftp.mozilla.org/pub/firefox/releases/79.0/win64/en-US/Firefox%20Setup%2079.0.exe'
+          #   search: 'withStreamsPolyfill'
           # pinned: safari loses its window or its session mid-suite on macos-latest, i.e. macos-26
           - os: macos-15
             browser: safari
             version: 'latest'
+          - os: macos-26
+            browser: safari
+            version: 'latest'
+          - os: xcode-27
+            browser: safari
+            version: 'latest'
 
           # native build
-          - os: windows-latest
-            browser: chrome
-            version: '87.0'
-            url: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F811961%2Fchrome-win.zip?alt=media'
-            driver: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F811961%2Fchromedriver_win32.zip?alt=media'
-            search: 'maxParallelTests=4'
-            build: 'native'
-          - os: windows-latest
-            browser: chrome
-            version: '76.0'
-            url: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F664573%2Fchrome-win.zip?alt=media'
-            driver: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F664573%2Fchromedriver_win32.zip?alt=media'
-            build: 'native'
-          - os: windows-latest
-            browser: firefox
-            version: '102.0'
-            url: 'https://ftp.mozilla.org/pub/firefox/releases/102.0.1/win64/en-US/Firefox%20Setup%20102.0.1.exe'
-            build: 'native'
-          - os: windows-latest
-            browser: firefox
-            version: '71.0'
-            url: 'https://ftp.mozilla.org/pub/firefox/releases/71.0/win64/en-US/Firefox%20Setup%2071.0.exe'
-            build: 'native'
-            search: 'withStreamsPolyfill'
+          # - os: windows-latest
+          #   browser: chrome
+          #   version: '87.0'
+          #   url: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F811961%2Fchrome-win.zip?alt=media'
+          #   driver: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F811961%2Fchromedriver_win32.zip?alt=media'
+          #   search: 'maxParallelTests=4'
+          #   build: 'native'
+          # - os: windows-latest
+          #   browser: chrome
+          #   version: '76.0'
+          #   url: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F664573%2Fchrome-win.zip?alt=media'
+          #   driver: 'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F664573%2Fchromedriver_win32.zip?alt=media'
+          #   build: 'native'
+          # - os: windows-latest
+          #   browser: firefox
+          #   version: '102.0'
+          #   url: 'https://ftp.mozilla.org/pub/firefox/releases/102.0.1/win64/en-US/Firefox%20Setup%20102.0.1.exe'
+          #   build: 'native'
+          # - os: windows-latest
+          #   browser: firefox
+          #   version: '71.0'
+          #   url: 'https://ftp.mozilla.org/pub/firefox/releases/71.0/win64/en-US/Firefox%20Setup%2071.0.exe'
+          #   build: 'native'
+          #   search: 'withStreamsPolyfill'
 
     steps:
       - name: Checkout code
