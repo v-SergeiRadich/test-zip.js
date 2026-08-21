@@ -211,4 +211,37 @@ jobs:
             $argsList += "$build"
           }
 
-          & node tests/browser-runner.js $argsList
+          $results = @()
+
+          for ($run = 1; $run -le 10; $run++) {
+            Write-Host "Run $run of 10"
+            $runOutput = & node tests/browser-runner.js $argsList 2>&1
+            $exitCode = $LASTEXITCODE
+            $runOutput | ForEach-Object { Write-Host $_ }
+
+            if ($exitCode -eq 0) {
+              $result = "Success"
+            }
+            elseif ($runOutput -match "NoSuchWindowError") {
+              $result = "NoSuchWindowError"
+            }
+            elseif ($runOutput -match "NoSuchSessionError") {
+              $result = "NoSuchSessionError"
+            }
+            else {
+              $result = "Other error"
+            }
+
+            $results += $result
+          }
+
+          Write-Host "Test report:"
+          for ($run = 1; $run -le $results.Count; $run++) {
+            Write-Host "Run ${run}: $($results[$run - 1])"
+          }
+
+          if ($results -contains "NoSuchWindowError" -or
+              $results -contains "NoSuchSessionError" -or
+              $results -contains "Other error") {
+            exit 1
+          }
